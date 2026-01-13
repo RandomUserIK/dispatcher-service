@@ -1,3 +1,10 @@
 spring:
   application:
     name: dispatcher-service
+
+  cloud:
+    function:
+      definition: pack|label
+
+server:
+  port: 9003

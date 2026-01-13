@@ -25,9 +25,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.cloud:spring-cloud-function-context")
+	implementation("io.github.oshai:kotlin-logging-jvm:${property("kotlin-logging-jvm.version")}")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+	testImplementation("io.projectreactor:reactor-test")
+	testImplementation("io.kotest:kotest-assertions-core-jvm:${property("kotest.version")}")
+
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
