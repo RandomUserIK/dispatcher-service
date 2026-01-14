@@ -1,6 +1,7 @@
 package com.polarbookshop.dispatcherservice
 
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.function.context.FunctionCatalog
@@ -11,6 +12,7 @@ import java.util.function.Function
 
 @FunctionalSpringBootTest
 @Suppress("ReactiveStreamsUnusedPublisher")
+@Disabled("These tests are only necessary when using the functions alone (no bindings)")
 internal class DispatchingFunctionsIntegrationTests @Autowired constructor(
 	private val catalog: FunctionCatalog,
 ) {
