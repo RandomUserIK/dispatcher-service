@@ -1,3 +1,7 @@
+import org.gradle.kotlin.dsl.named
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+import kotlin.apply
+
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
@@ -24,6 +28,8 @@ repositories {
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.cloud:spring-cloud-stream-binder-rabbit")
+	implementation("org.springframework.cloud:spring-cloud-starter-config")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("io.github.oshai:kotlin-logging-jvm:${property("kotlin-logging-jvm.version")}")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -31,6 +37,10 @@ dependencies {
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("io.kotest:kotest-assertions-core-jvm:${property("kotest.version")}")
 	testImplementation("org.springframework.cloud:spring-cloud-stream-test-binder")
+	testImplementation("org.springframework.boot:spring-boot-testcontainers")
+	testImplementation("org.testcontainers:junit-jupiter")
+	testImplementation("org.testcontainers:rabbitmq")
+	testImplementation("org.awaitility:awaitility-kotlin:${property("awaitility-kotlin.version")}")
 
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
@@ -49,4 +59,21 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.named<BootBuildImage>("bootBuildImage") {
+	imageName.set(project.name)
+	environment.set(
+		mapOf(
+			"BP_JVM_VERSION" to "21.*"
+		)
+	)
+
+	docker.apply {
+		publishRegistry.apply {
+			username.set(project.findProperty("registryUsername") as String?)
+			password.set(project.findProperty("registryToken") as String?)
+			url.set(project.findProperty("registryUrl") as String?)
+		}
+	}
 }
