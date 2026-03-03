@@ -14,6 +14,10 @@ spec:
     metadata:
       labels:
         app: dispatcher-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "9003"
     spec:
       containers:
         - name: dispatcher-service
@@ -30,3 +34,15 @@ spec:
               value: polar-rabbitmq
             - name: SPRING_CLOUD_CONFIG_URI
               value: http://config-service
+          livenessProbe:
+            httpGet:
+              port: 9003
+              path: /actuator/health/liveness
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 9003
+              path: /actuator/health/readiness
+            initialDelaySeconds: 5
+            periodSeconds: 15

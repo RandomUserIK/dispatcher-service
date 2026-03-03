@@ -30,6 +30,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-stream-binder-rabbit")
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("io.github.oshai:kotlin-logging-jvm:${property("kotlin-logging-jvm.version")}")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
